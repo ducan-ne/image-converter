@@ -12,9 +12,8 @@ export async function convert(file: Uint8Array, targetFormat: MagickFormat) {
 
   return new Promise<ArrayBufferLike>(async (resolve, reject) => {
     ImageMagick.read(file, (image) => {
-      image.quality = 75;
-      image.strip()
-      image.gaussianBlur(0.05)
+      image.quality = 85;
+      // image.strip()
       image.write(targetFormat, (data) => {
         resolve(data)
       })
