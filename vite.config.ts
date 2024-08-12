@@ -22,10 +22,15 @@ export default defineConfig({
       target: "esnext",
     } as any,
   },
-  server: {
-    headers: {
-      "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Embedder-Policy": "require-corp",
+  resolve: {
+    alias: {
+      react: "https://bannerify.co/_astro/react.js",
+      'react/jsx-runtime': "https://bannerify.co/_astro/react.js",
+      "react-dom": "https://bannerify.co/_astro/react-dom.js",
+      "framer-motion": "https://bannerify.co/_astro/framer-motion.js",
+      "sonner": "https://bannerify.co/_astro/sonner.js",
+      "@tanstack/react-query": "https://bannerify.co/_astro/query.js",
+      "@nextui-org/react": "https://bannerify.co/_astro/nextui.js",
     },
   },
   build: {
@@ -33,7 +38,6 @@ export default defineConfig({
     rollupOptions: {
       input: resolve(__dirname, "src/App.tsx"),
       preserveEntrySignatures: "exports-only",
-      external: ["react", "react-dom", "react-dom/client", "react/jsx-runtime"],
       output: {
         entryFileNames: "index.js",
         format: "esm",

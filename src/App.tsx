@@ -1,8 +1,5 @@
 import "./build.css"
 import Converter from "./Converter.tsx"
-// import test from "./test.ts?worker"
-
-// new test()
 
 const App = () => {
   return (

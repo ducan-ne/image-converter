@@ -11,10 +11,7 @@ import {
   TableHeader,
 } from "react-aria-components"
 import { Toaster } from "sonner"
-import {
-  MagickFormat,
-} from "@imagemagick/magick-wasm"
-import "./build.css"
+import { MagickFormat } from "@imagemagick/magick-wasm"
 import { proxy, useSnapshot } from "valtio"
 const tableCls = table()
 
@@ -36,7 +33,18 @@ const state = proxy<{
   convertedImages: [],
 })
 
-export type Formats = "webp" | "jpeg" | "png" | "avif" | "heic" | "bmp" | "ico" | "tiff" | "pnm" | "tga" | "farbfeld"
+export type Formats =
+  | "webp"
+  | "jpeg"
+  | "png"
+  | "avif"
+  | "heic"
+  | "bmp"
+  | "ico"
+  | "tiff"
+  | "pnm"
+  | "tga"
+  | "farbfeld"
 
 const Converter = () => {
   const { convertedImages } = useSnapshot(state)
@@ -69,8 +77,11 @@ const Converter = () => {
                   filename: file.name,
                 })
                 const start = Date.now()
-                const converted = await instance.convert(new Uint8Array(await file.arrayBuffer()), targetFormat)
-                
+                const converted = await instance.convert(
+                  new Uint8Array(await file.arrayBuffer()),
+                  targetFormat,
+                )
+
                 const blob = new Blob([converted])
                 const previewUrl = URL.createObjectURL(blob)
                 // state.convertedImages[index - 1].previewUrl = previewUrl
@@ -93,7 +104,7 @@ const Converter = () => {
         </FileTrigger>
         <select
           value={targetFormat}
-          onChange={(e) => setTargetFormat(e.target.value as Formats)}
+          onChange={(e) => setTargetFormat(e.target.value as MagickFormat)}
           className="w-full"
         >
           <option value={MagickFormat.WebP}>WebP</option>
@@ -149,12 +160,16 @@ const Converter = () => {
                     : `${image.duration}ms`}
                 </Cell>
                 <Cell className={tableCls.td()}>
-                  <Button isDisabled={image.loading} onPress={() => {
-                    const a = document.createElement("a")
-                    a.href = image.downloadUrl
-                    a.download = image.filename.replace(/\.[^/.]+$/, "") + "." + targetFormat.toLowerCase()
-                    a.click()
-                  }}>
+                  <Button
+                    isDisabled={image.loading}
+                    onPress={() => {
+                      const a = document.createElement("a")
+                      a.href = image.downloadUrl
+                      a.download =
+                        image.filename.replace(/\.[^/.]+$/, "") + "." + targetFormat.toLowerCase()
+                      a.click()
+                    }}
+                  >
                     Download
                   </Button>
                 </Cell>
