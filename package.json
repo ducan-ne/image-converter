@@ -8,11 +8,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@imagemagick/magick-wasm": "^0.0.29",
+    "@imagemagick/magick-wasm": "^0.0.30",
     "@napi-rs/image": "^1.9.2",
     "@nextui-org/react": "^2.4.6",
     "@nextui-org/theme": "^2.2.9",
     "buffer": "^6.0.3",
+    "framer-motion": "^11.3.24",
     "lucide-react": "^0.427.0",
     "react": "18.3.0-canary-b30030471-20240117",
     "react-aria-components": "^1.3.1",
