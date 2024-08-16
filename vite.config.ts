@@ -23,7 +23,7 @@ export default defineConfig({
     } as any,
   },
   resolve: {
-    alias: {
+    alias: process.env.NODE_ENV === "production" ? {
       react: "https://bannerify.co/_astro/react.js",
       'react/jsx-runtime': "https://bannerify.co/_astro/react.js",
       "react-dom": "https://bannerify.co/_astro/react-dom.js",
@@ -31,7 +31,7 @@ export default defineConfig({
       "sonner": "https://bannerify.co/_astro/sonner.js",
       "@tanstack/react-query": "https://bannerify.co/_astro/query.js",
       "@nextui-org/react": "https://bannerify.co/_astro/nextui.js",
-    },
+    }: {},
   },
   build: {
     target: "esnext",

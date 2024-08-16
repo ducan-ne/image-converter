@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@imagemagick/magick-wasm':
-        specifier: ^0.0.29
-        version: 0.0.29
+        specifier: ^0.0.30
+        version: 0.0.30
       '@napi-rs/image':
         specifier: ^1.9.2
         version: 1.9.2
@@ -23,6 +23,9 @@ importers:
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
+      framer-motion:
+        specifier: ^11.3.24
+        version: 11.3.24(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117)
       lucide-react:
         specifier: ^0.427.0
         version: 0.427.0(react@18.3.0-canary-b30030471-20240117)
@@ -354,8 +357,8 @@ packages:
   '@formatjs/intl-localematcher@0.5.4':
     resolution: {integrity: sha512-zTwEpWOzZ2CiKcB93BLngUX59hQkuZjT2+SAQEscSm52peDW/getsawMcWF1rGRpMCX6D7nSJA3CzJ8gn13N/g==}
 
-  '@imagemagick/magick-wasm@0.0.29':
-    resolution: {integrity: sha512-kK8X0hfQIxfiOqSkDym+Nh542ACeJqM0yWQnWn77SM8CNST4lTeHmVCBNvDTRzpxKoDCcfoZQYRh9CasZLD6Iw==}
+  '@imagemagick/magick-wasm@0.0.30':
+    resolution: {integrity: sha512-l5pTepsyrM9O3zMdmDHGbncP2Uf4858nylU5tw6GE7QA/Qh99aEFr4eNkEan3q1PT6mV/1Ev0gOgthuK7/kNFQ==}
 
   '@internationalized/date@3.5.5':
     resolution: {integrity: sha512-H+CfYvOZ0LTJeeLOqm19E3uj/4YjrmOFtBufDHPfvtI80hFAMqtrp7oCACpe4Cil5l8S0Qu/9dYfZc/5lY8WQQ==}
@@ -3265,7 +3268,7 @@ snapshots:
     dependencies:
       tslib: 2.6.3
 
-  '@imagemagick/magick-wasm@0.0.29': {}
+  '@imagemagick/magick-wasm@0.0.30': {}
 
   '@internationalized/date@3.5.5':
     dependencies:
