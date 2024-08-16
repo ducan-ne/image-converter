@@ -41,7 +41,10 @@ export default defineConfig({
       output: {
         entryFileNames: "index.js",
         format: "esm",
-        inlineDynamicImports: true,
+        // inlineDynamicImports: true,
+        manualChunks: {
+          // image: ['@imagemagick/magick-wasm/magick.wasm']
+        }
       },
     },
   },
