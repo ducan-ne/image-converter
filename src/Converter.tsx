@@ -14,23 +14,22 @@ import { Toaster } from "sonner"
 import { MagickFormat } from "@imagemagick/magick-wasm"
 import { Spinner } from "@nextui-org/react"
 import { proxy, useSnapshot } from "valtio"
-import { motion, AnimatePresence } from "framer-motion"
-import { Counter } from "./Counter.tsx"
+import { motion, AnimatePresence, Variants } from "framer-motion"
 const tableCls = table()
 
-const variants = {
+const variants: Variants = {
   initial: (direction) => ({
-    translateY: direction > 0 ? "40%" : "-120%",
+    translateY: direction > 0 ? "40%" : "-80%",
     translateX: "-50%",
     opacity: 0,
     scale: 0.6,
     filter: "blur(2px)",
     transition: {
-      translateY: { type: "spring", duration: 0.15 },
-      translateX: { type: "spring", duration: 0.15 },
+      translateY: { type: "spring", duration: 0.1 },
+      translateX: { type: "spring", duration: 0.1 },
       opacity: { type: "spring", duration: 0.05 },
-      scale: { type: "spring", duration: 0.15 },
-      filter: { type: "spring", duration: 0.15 },
+      scale: { type: "spring", duration: 0.1 },
+      filter: { type: "spring", duration: 0.1 },
     },
   }),
   animate: {
@@ -40,31 +39,31 @@ const variants = {
     scale: 1,
     filter: "blur(0px)",
     transition: {
-      translateY: { type: "spring", duration: 0.15 },
-      translateX: { type: "spring", duration: 0.15 },
-      opacity: { type: "spring", duration: 0.15 },
-      scale: { type: "spring", duration: 0.15 },
-      filter: { type: "spring", duration: 0.15 },
+      translateY: { type: "spring", duration: 0.1 },
+      translateX: { type: "spring", duration: 0.1 },
+      opacity: { type: "spring", duration: 0.1 },
+      scale: { type: "spring", duration: 0.1 },
+      filter: { type: "spring", duration: 0.1 },
     },
   },
   exit: (direction) => ({
-    translateY: direction > 0 ? "-0%" : "40%",
+    translateY: direction > 0 ? "0%" : "40%",
     translateX: "-50%",
     opacity: 0,
     scale: 0.6,
     filter: "blur(2px)",
     transition: {
-      translateY: { type: "spring", duration: 0.15 },
-      translateX: { type: "spring", duration: 0.15 },
-      opacity: { type: "spring", duration: 0.15 },
-      scale: { type: "spring", duration: 0.15 },
-      filter: { type: "spring", duration: 0.15 },
+      translateY: { type: "spring", duration: 0.1 },
+      translateX: { type: "spring", duration: 0.1 },
+      opacity: { type: "spring", duration: 0.1 },
+      scale: { type: "spring", duration: 0.1 },
+      filter: { type: "spring", duration: 0.1 },
     },
   }),
-};
+}
 
 type Image = {
-  status: 'done' | 'loading' | 'error'
+  status: "done" | "loading" | "error"
   previewUrl: string
   downloadUrl: string
   originalSize: number
@@ -114,13 +113,12 @@ const Converter = () => {
               if (file.type.indexOf("image") === -1) {
                 continue
               }
-              
               ;(async function () {
                 const instance = new ComlinkWorker<typeof import("./converter-worker2.ts")>(
                   new URL("./converter-worker2.ts", import.meta.url),
                 )
                 const index = state.convertedImages.push({
-                  status: 'loading',
+                  status: "loading",
                   originalSize: file.size,
                   previewUrl: URL.createObjectURL(file),
                   convertedSize: 0,
@@ -132,7 +130,7 @@ const Converter = () => {
                 })
                 const start = Date.now()
                 const timer = setInterval(() => {
-                  if (state.convertedImages[index - 1].status !== 'loading') {
+                  if (state.convertedImages[index - 1].status !== "loading") {
                     clearInterval(timer)
                     return
                   }
@@ -144,7 +142,7 @@ const Converter = () => {
                     targetFormat,
                     quanlity,
                   )
-  
+
                   const blob = new Blob([converted])
                   const previewUrl = URL.createObjectURL(blob)
                   // state.convertedImages[index - 1].previewUrl = previewUrl
@@ -153,12 +151,12 @@ const Converter = () => {
                   state.convertedImages[index - 1].downloadUrl = URL.createObjectURL(blob)
                   state.convertedImages[index - 1].sizeChange =
                     ((file.size - blob.size) / file.size) * 100
-                  state.convertedImages[index - 1].status = 'done'
+                  state.convertedImages[index - 1].status = "done"
                   state.convertedImages[index - 1].format = targetFormat
                   state.convertedImages[index - 1].duration = Date.now() - start
-                } catch(e) {
-                  console.log('Error:', e);
-                  state.convertedImages[index - 1].status = 'error'
+                } catch (e) {
+                  console.log("Error:", e)
+                  state.convertedImages[index - 1].status = "error"
                 }
               })()
             }
@@ -190,7 +188,13 @@ const Converter = () => {
           <option value={MagickFormat.Eps}>EPS</option>
           <option value={MagickFormat.Raw}>RAW</option>
         </select>
-        <input type="number" min="0" max="100" value={quanlity} onChange={(e) => setQuanlity(+e.target.value)} />
+        <input
+          type="number"
+          min="0"
+          max="100"
+          value={quanlity}
+          onChange={(e) => setQuanlity(+e.target.value)}
+        />
         <Table aria-label="Converted images" className={tableCls.table()}>
           <TableHeader className={tableCls.thead()}>
             <Column isRowHeader className={`${tableCls.th()} w-12`}>
@@ -208,11 +212,18 @@ const Converter = () => {
               <Row className={tableCls.tr()} key={index}>
                 <Cell className={tableCls.td()}>{index + 1}</Cell>
                 <Cell className={tableCls.td()}>
-                  <motion.div key={String(image.status)} animate={{ y: -10 }}>
-                    {image.status === 'loading' && <Spinner/>}
-                    {image.status === 'done' && 'Done'}
-                    {image.status === 'error' && 'Error'}
-                  </motion.div>
+                  <AnimatePresence>
+                    <motion.div
+                      key={String(image.status)}
+                      initial={{ y: 0 }}
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {image.status === "loading" && <Spinner />}
+                      {image.status === "done" && "Done"}
+                      {image.status === "error" && "Error"}
+                    </motion.div>
+                  </AnimatePresence>
                 </Cell>
                 <Cell className={tableCls.td()}>{image.filename}</Cell>
                 <Cell className={tableCls.td()}>
@@ -224,18 +235,18 @@ const Converter = () => {
                 </Cell>
                 <Cell className={tableCls.td()}>
                   <motion.div key={image.sizeChange} animate={{ y: -10 }}>
-                  {image.status !== 'loading' &&
-                    (image.sizeChange > 0 ? (
-                      <span className="text-red-500">+{image.sizeChange.toFixed(2)}%</span>
-                    ) : (
-                      <span className="text-green-500">{image.sizeChange.toFixed(2)}%</span>
-                    ))}
+                    {image.status !== "loading" &&
+                      (image.sizeChange > 0 ? (
+                        <span className="text-red-500">+{image.sizeChange.toFixed(2)}%</span>
+                      ) : (
+                        <span className="text-green-500">{image.sizeChange.toFixed(2)}%</span>
+                      ))}
                   </motion.div>
                 </Cell>
                 <Cell className={`${tableCls.td()}`}>
                   <div className="tabular-nums flex w-full items-center">
-                    {((image.duration / 1000).toFixed(2) +'s').split('').map((digit, index) => (
-                      <div key={index} className="w-[0.55rem] relative select-none">
+                    {((image.duration / 1000).toFixed(2) + "s").split("").map((digit, index) => (
+                      <div key={index} className="w-[0.53rem] relative select-none">
                         <AnimatePresence initial={false} custom={1}>
                           <motion.span
                             key={digit}
@@ -251,11 +262,11 @@ const Converter = () => {
                         </AnimatePresence>
                       </div>
                     ))}
-                    </div>
+                  </div>
                 </Cell>
                 <Cell className={tableCls.td()}>
                   <Button
-                    isDisabled={image.status !== 'done'}
+                    isDisabled={image.status !== "done"}
                     onPress={() => {
                       const a = document.createElement("a")
                       a.href = image.downloadUrl
