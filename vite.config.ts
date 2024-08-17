@@ -24,8 +24,8 @@ export default defineConfig({
   },
   resolve: {
     alias: process.env.NODE_ENV === "production" ? {
-      react: "https://bannerify.co/_astro/react.js",
       'react/jsx-runtime': "https://bannerify.co/_astro/react.js",
+      react: "https://bannerify.co/_astro/react.js",
       "react-dom": "https://bannerify.co/_astro/react-dom.js",
       "framer-motion": "https://bannerify.co/_astro/framer-motion.js",
       "sonner": "https://bannerify.co/_astro/sonner.js",
