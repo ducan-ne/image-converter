@@ -15,7 +15,31 @@ import { MagickFormat } from "@imagemagick/magick-wasm"
 import { Spinner } from "@nextui-org/react"
 import { proxy, useSnapshot } from "valtio"
 import { motion, AnimatePresence, Variants } from "framer-motion"
+import workerUrl from './converter-worker2?worker&url'
+import { createBirpc } from "birpc"
+import type { ServerFunctions } from "./converter-worker2"
 const tableCls = table()
+
+const js = `import ${JSON.stringify(new URL(workerUrl, import.meta.url))}`
+const blob = new Blob([js], { type: "application/javascript" })
+function WorkaroundWorker(options: any) {
+  const objURL = URL.createObjectURL(blob)
+  const worker = new Worker(new URL(objURL), { type: "module" })
+  // worker.addEventListener("error", (e) => {
+  //   URL.revokeObjectURL(objURL)
+  // })
+  const rpc = createBirpc<ServerFunctions>(
+    {},
+    {
+      post: data => worker.postMessage(data),
+      on: data => worker.addEventListener("message", v => data(v.data)),
+      // these are required when using WebSocket
+      // serialize: v => JSON.stringify(v),
+      // deserialize: v => JSON.parse(v),
+    },
+  )
+  return rpc;
+}
 
 const variants: Variants = {
   initial: (direction) => ({
@@ -114,9 +138,7 @@ const Converter = () => {
                 continue
               }
               ;(async function () {
-                const instance = new ComlinkWorker<typeof import("./converter-worker2.ts")>(
-                  new URL("./converter-worker2.ts", import.meta.url),
-                )
+                const instance = WorkaroundWorker({ name: "converter-worker" })
                 const index = state.convertedImages.push({
                   status: "loading",
                   originalSize: file.size,

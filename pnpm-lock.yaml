@@ -20,6 +20,9 @@ importers:
       '@nextui-org/theme':
         specifier: ^2.2.9
         version: 2.2.9(tailwindcss@3.4.9)
+      birpc:
+        specifier: ^0.2.17
+        version: 0.2.17
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -63,9 +66,6 @@ importers:
       babel-plugin-react-compiler:
         specifier: ^0.0.0-experimental-334f00b-20240725
         version: 0.0.0-experimental-334f00b-20240725
-      comlink:
-        specifier: ^4.4.1
-        version: 4.4.1
       postcss:
         specifier: ^8.4.41
         version: 8.4.41
@@ -81,9 +81,6 @@ importers:
       vite:
         specifier: 5.4.1
         version: 5.4.1(@types/node@22.2.0)(lightningcss@1.26.0)
-      vite-plugin-comlink:
-        specifier: ^5.0.1
-        version: 5.0.1(comlink@4.4.1)(vite@5.4.1(@types/node@22.2.0)(lightningcss@1.26.0))
       vite-plugin-css-injected-by-js:
         specifier: 1.4.0
         version: 1.4.0(vite@5.4.1(@types/node@22.2.0)(lightningcss@1.26.0))
@@ -2107,6 +2104,9 @@ packages:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
 
+  birpc@0.2.17:
+    resolution: {integrity: sha512-+hkTxhot+dWsLpp3gia5AkVHIsKlZybNT5gIYiDlNzJrmYPcTM9k5/w2uaj3IPpd7LlEYpmCj4Jj1nC41VhDFg==}
+
   brace-expansion@2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
 
@@ -2174,9 +2174,6 @@ packages:
   color@4.2.3:
     resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==}
     engines: {node: '>=12.5.0'}
-
-  comlink@4.4.1:
-    resolution: {integrity: sha512-+1dlx0aY5Jo1vHy/tSsIGpSkN4tS9rZSW8FIhG0JH/crs9wwweswIo/POr451r7bZww3hFbPAKnTpimzL/mm4Q==}
 
   commander@4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
@@ -2507,9 +2504,6 @@ packages:
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
 
-  magic-string@0.30.10:
-    resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
-
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -2770,10 +2764,6 @@ packages:
     resolution: {integrity: sha512-LbrmJOMUSdEVxIKvdcJzQC+nQhe8FUZQTXQy6+I75skNgn3OoQ0DZA8YnFa7gp8tqtL3KPf1kmo0R5DoApeSGQ==}
     engines: {node: '>=0.10.0'}
 
-  source-map@0.7.4:
-    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
-    engines: {node: '>= 8'}
-
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -2936,12 +2926,6 @@ packages:
         optional: true
       react:
         optional: true
-
-  vite-plugin-comlink@5.0.1:
-    resolution: {integrity: sha512-4TGw5+bTg5ROd8N2m9O/y0CoS81g8nyce9EI/eV51i54EJ938lFadXEButhaptJs89l5NY9+TkdjI5jXX4cWOw==}
-    peerDependencies:
-      comlink: ^4.3.1
-      vite: '>=2.9.6'
 
   vite-plugin-css-injected-by-js@1.4.0:
     resolution: {integrity: sha512-bDMsgq3oMx4eBjdbvMF01GXG5Sk2ZpoFKHRfYMpZSF+2BUOibqNFgA5fi8C8bGm1bTy+Ih6J9dewPE2CKx0fog==}
@@ -6134,6 +6118,8 @@ snapshots:
 
   binary-extensions@2.3.0: {}
 
+  birpc@0.2.17: {}
+
   brace-expansion@2.0.1:
     dependencies:
       balanced-match: 1.0.2
@@ -6210,8 +6196,6 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
       color-string: 1.9.1
-
-  comlink@4.4.1: {}
 
   commander@4.1.1: {}
 
@@ -6482,10 +6466,6 @@ snapshots:
   lucide-react@0.427.0(react@18.3.0-canary-b30030471-20240117):
     dependencies:
       react: 18.3.0-canary-b30030471-20240117
-
-  magic-string@0.30.10:
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.0
 
   merge2@1.4.1: {}
 
@@ -6815,8 +6795,6 @@ snapshots:
 
   source-map@0.5.7: {}
 
-  source-map@0.7.4: {}
-
   string-width@4.2.3:
     dependencies:
       emoji-regex: 8.0.0
@@ -6977,14 +6955,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.2.48
       react: 18.3.0-canary-b30030471-20240117
-
-  vite-plugin-comlink@5.0.1(comlink@4.4.1)(vite@5.4.1(@types/node@22.2.0)(lightningcss@1.26.0)):
-    dependencies:
-      comlink: 4.4.1
-      json5: 2.2.3
-      magic-string: 0.30.10
-      source-map: 0.7.4
-      vite: 5.4.1(@types/node@22.2.0)(lightningcss@1.26.0)
 
   vite-plugin-css-injected-by-js@1.4.0(vite@5.4.1(@types/node@22.2.0)(lightningcss@1.26.0)):
     dependencies:
