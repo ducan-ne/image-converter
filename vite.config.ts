@@ -22,13 +22,7 @@ export default defineConfig({
   },
   resolve: {
     alias: process.env.NODE_ENV === "production" ? {
-      // 'react/jsx-runtime': "https://cdn.jsdelivr.net/npm/react@18.3.0-canary-b30030471-20240117/jsx-runtime/+esm",
-      // "react": "https://cdn.jsdelivr.net/npm/react@18.3.0-canary-b30030471-20240117/+esm",
-      // "react-dom": "https://bannerify.co/_astro/react-dom.js",
       "framer-motion": "https://bannerify.co/_astro/framer-motion.js",
-      // "sonner": "https://bannerify.co/_astro/sonner.js",
-      // "@tanstack/react-query": "https://bannerify.co/_astro/query.js",
-      // "@nextui-org/react": "https://bannerify.co/_astro/nextui.js",
     }: {},
   },
   build: {
