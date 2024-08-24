@@ -21,18 +21,17 @@ export default defineConfig({
     } as any,
   },
   resolve: {
-    alias: process.env.NODE_ENV === "production" ? {
-      "framer-motion": "https://bannerify.co/_astro/framer-motion.js",
-    }: {},
+    alias:
+      process.env.NODE_ENV === "production"
+        ? {
+            // "framer-motion": "https://bannerify.co/_astro/framer-motion.js",
+          }
+        : {},
   },
   build: {
     target: "esnext",
     rollupOptions: {
-      external: [
-        "react/jsx-runtime",
-        "react",
-        "react-dom",
-      ],
+      external: ["react/jsx-runtime", "react", "react-dom"],
       input: resolve(__dirname, "src/App.tsx"),
       preserveEntrySignatures: "exports-only",
       output: {
@@ -41,7 +40,7 @@ export default defineConfig({
         // inlineDynamicImports: true,
         manualChunks: {
           // image: ['@imagemagick/magick-wasm/magick.wasm']
-        }
+        },
       },
     },
   },

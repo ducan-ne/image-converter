@@ -32,6 +32,9 @@ importers:
       lucide-react:
         specifier: ^0.427.0
         version: 0.427.0(react@18.3.0-canary-b30030471-20240117)
+      motion-number:
+        specifier: ^0.1.6
+        version: 0.1.6(framer-motion@11.3.24(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117))(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117)
       react:
         specifier: 18.3.0-canary-b30030471-20240117
         version: 18.3.0-canary-b30030471-20240117
@@ -2519,6 +2522,13 @@ packages:
   minipass@7.1.2:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  motion-number@0.1.6:
+    resolution: {integrity: sha512-KR/BxaMMHaHciAxXAtp5EI+M0/KrXFWKdkUkKz0UE7WotLltpedF5YPnjsAP7bgdExR72TRUZCTtCzG9paER9w==}
+    peerDependencies:
+      framer-motion: ^11.3.19
+      react: ^18.0.0
+      react-dom: ^18.0.0
 
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
@@ -6479,6 +6489,12 @@ snapshots:
       brace-expansion: 2.0.1
 
   minipass@7.1.2: {}
+
+  motion-number@0.1.6(framer-motion@11.3.24(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117))(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117):
+    dependencies:
+      framer-motion: 11.3.24(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117)
+      react: 18.3.0-canary-b30030471-20240117
+      react-dom: 18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117)
 
   ms@2.1.2: {}
 
