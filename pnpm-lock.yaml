@@ -41,6 +41,9 @@ importers:
       react-dom:
         specifier: 18.3.0-canary-b30030471-20240117
         version: 18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117)
+      remeda:
+        specifier: ^2.11.0
+        version: 2.11.0
       sonner:
         specifier: ^1.5.0
         version: 1.5.0(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117)
@@ -2626,6 +2629,9 @@ packages:
   regenerator-runtime@0.14.1:
     resolution: {integrity: sha512-dYnhHh0nJoMfnkZs6GmmhFknAGRrLznOu5nc9ML+EJxGvrx6H7teuevqVqCuPcPK//3eDrrjQhehXVx9cnkGdw==}
 
+  remeda@2.11.0:
+    resolution: {integrity: sha512-rQO+zcuNvnTcB2vBctblBARZakY0+wMNtrFGqU1+h4jm5p2APcDKQxUZG2CmMPkSQxa2nauU55GBVS/3Fo83fA==}
+
   resolve@1.22.8:
     resolution: {integrity: sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==}
     hasBin: true
@@ -2757,6 +2763,10 @@ packages:
 
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
+
+  type-fest@4.25.0:
+    resolution: {integrity: sha512-bRkIGlXsnGBRBQRAY56UXBm//9qH4bmJfFvq83gSz41N282df+fjy8ofcEgc1sM8geNt5cl6mC2g9Fht1cs8Aw==}
+    engines: {node: '>=16'}
 
   typescript@5.5.4:
     resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
@@ -6572,6 +6582,10 @@ snapshots:
 
   regenerator-runtime@0.14.1: {}
 
+  remeda@2.11.0:
+    dependencies:
+      type-fest: 4.25.0
+
   resolve@1.22.8:
     dependencies:
       is-core-module: 2.15.0
@@ -6734,6 +6748,8 @@ snapshots:
   ts-interface-checker@0.1.13: {}
 
   tslib@2.6.3: {}
+
+  type-fest@4.25.0: {}
 
   typescript@5.5.4: {}
 

@@ -1,4 +1,4 @@
-import { table } from "@nextui-org/theme"
+import { link, table } from "@nextui-org/theme"
 import { useState } from "react"
 import {
   Button,
@@ -21,27 +21,35 @@ import workerUrl from "./converter-worker?worker&url"
 import { createBirpc } from "birpc"
 import MotionNumber from "motion-number"
 import type { ServerFunctions } from "./converter-worker"
+
+// classes
 const tableCls = table()
+const linkCls = link()
 
 const js = `import ${JSON.stringify(new URL(workerUrl, import.meta.url))}`
 const blob = new Blob([js], { type: "application/javascript" })
-function WorkaroundWorker() {
+function createWorker(
+  onProgress: (progress: number) => void,
+) {
   const objURL = URL.createObjectURL(blob)
   const worker = new Worker(new URL(objURL), { type: "module" })
-  // worker.addEventListener("error", (e) => {
-  //   URL.revokeObjectURL(objURL)
-  // })
+  worker.addEventListener("error", (e) => {
+    URL.revokeObjectURL(objURL)
+  })
   const rpc = createBirpc<ServerFunctions>(
     {},
     {
       post: (data) => worker.postMessage(data),
       on: (data) => worker.addEventListener("message", (v) => data(v.data)),
-      // these are required when using WebSocket
-      // serialize: v => JSON.stringify(v),
-      // deserialize: v => JSON.parse(v),
+      timeout: 60e3 * 5,
     },
   )
-  return rpc
+  worker.addEventListener("message", (e) => {
+    if (e.data.type === "progress") {
+      onProgress(e.data.progress)
+    }
+  })
+  return [rpc, () => worker.terminate()] as const
 }
 
 type Image = {
@@ -54,6 +62,7 @@ type Image = {
   sizeChange: number // in %
   format: MagickFormat
   duration: number
+  progress: number
 }
 
 const state = proxy<{
@@ -86,7 +95,6 @@ const Converter = () => {
         continue
       }
       ;(async function () {
-        const instance = WorkaroundWorker()
         const index = state.convertedImages.push({
           status: "loading",
           originalSize: file.size,
@@ -97,14 +105,24 @@ const Converter = () => {
           duration: 0,
           downloadUrl: "",
           filename: file.name,
+          progress: 0,
+        })
+        let lastUpdate = 0
+        const [instance, terminate] = createWorker((progress) => {
+          const now = Date.now()
+          if (now - lastUpdate >= 200) {
+            row.progress = Math.round(progress)
+            lastUpdate = now
+          }
         })
         const start = Date.now()
+        const row = state.convertedImages[index - 1]
         const timer = setInterval(() => {
-          if (state.convertedImages[index - 1].status !== "loading") {
+          if (row.status !== "loading") {
             clearInterval(timer)
             return
           }
-          state.convertedImages[index - 1].duration = Date.now() - start
+          row.duration = Date.now() - start
         }, 300)
         try {
           const converted = await instance.convert(
@@ -128,16 +146,18 @@ const Converter = () => {
           })
           const previewUrl = URL.createObjectURL(blob)
           // state.convertedImages[index - 1].previewUrl = previewUrl
-          state.convertedImages[index - 1].previewUrl = previewUrl
-          state.convertedImages[index - 1].convertedSize = blob.size
-          state.convertedImages[index - 1].downloadUrl = URL.createObjectURL(blob)
-          state.convertedImages[index - 1].sizeChange = ((file.size - blob.size) / file.size) * 100
-          state.convertedImages[index - 1].status = "done"
-          state.convertedImages[index - 1].format = targetFormat
-          state.convertedImages[index - 1].duration = Date.now() - start
+          row.previewUrl = previewUrl
+          row.convertedSize = blob.size
+          row.downloadUrl = URL.createObjectURL(blob)
+          row.sizeChange = ((file.size - blob.size) / file.size) * 100
+          row.status = "done"
+          row.format = targetFormat
+          row.duration = Date.now() - start
         } catch (e) {
           console.log("Error:", e)
-          state.convertedImages[index - 1].status = "error"
+          row.status = "error"
+        } finally {
+          terminate()
         }
       })()
     }
@@ -226,7 +246,7 @@ const Converter = () => {
                       animate={{ y: [0, -10, 0] }}
                       transition={{ duration: 0.3 }}
                     >
-                      {image.status === "loading" && <Spinner />}
+                      {image.status === "loading" && <Spinner label={`${image.progress}%`} />}
                       {image.status === "done" && "Done"}
                       {image.status === "error" && <span className="text-red-500">Error</span>}
                     </motion.div>
@@ -260,6 +280,7 @@ const Converter = () => {
                 </Cell>
                 <Cell className={tableCls.td()}>
                   <Button
+                  className={link}
                     isDisabled={image.status !== "done"}
                     onPress={() => {
                       const a = document.createElement("a")
