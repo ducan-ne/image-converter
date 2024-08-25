@@ -20,14 +20,6 @@ export default defineConfig({
       target: "esnext",
     } as any,
   },
-  resolve: {
-    alias:
-      process.env.NODE_ENV === "production"
-        ? {
-            // "framer-motion": "https://bannerify.co/_astro/framer-motion.js",
-          }
-        : {},
-  },
   build: {
     target: "esnext",
     rollupOptions: {
@@ -37,9 +29,7 @@ export default defineConfig({
       output: {
         entryFileNames: "index.js",
         format: "esm",
-        // inlineDynamicImports: true,
         manualChunks: {
-          // image: ['@imagemagick/magick-wasm/magick.wasm']
         },
       },
     },

@@ -16,11 +16,11 @@ import { Toaster } from "sonner"
 import { MagickFormat } from "@imagemagick/magick-wasm"
 import { Spinner } from "@nextui-org/react"
 import { proxy, useSnapshot } from "valtio"
-import { AnimatePresence, motion, Variants } from "framer-motion"
-import workerUrl from "./converter-worker2?worker&url"
+import { AnimatePresence, motion } from "framer-motion"
+import workerUrl from "./converter-worker?worker&url"
 import { createBirpc } from "birpc"
 import MotionNumber from "motion-number"
-import type { ServerFunctions } from "./converter-worker2"
+import type { ServerFunctions } from "./converter-worker"
 const tableCls = table()
 
 const js = `import ${JSON.stringify(new URL(workerUrl, import.meta.url))}`

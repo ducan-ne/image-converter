@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@imagemagick/magick-wasm": "^0.0.30",
-    "@napi-rs/image": "^1.9.2",
     "@nextui-org/react": "^2.4.6",
     "@nextui-org/theme": "^2.2.9",
     "birpc": "^0.2.17",
