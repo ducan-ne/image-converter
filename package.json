@@ -1,5 +1,5 @@
 {
-  "name": "bannerify-image-converter",
+  "name": "image-converter",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -9,9 +9,9 @@
     "up": "bunx --bun vite build && wrangler pages deploy ./dist --branch main --project-name image-converter"
   },
   "dependencies": {
-    "@imagemagick/magick-wasm": "^0.0.30",
     "@nextui-org/react": "^2.4.6",
     "@nextui-org/theme": "^2.2.9",
+    "@zip.js/zip.js": "^2.7.52",
     "birpc": "^0.2.17",
     "buffer": "^6.0.3",
     "framer-motion": "^11.3.24",
@@ -22,7 +22,8 @@
     "react-dom": "18.3.0-canary-b30030471-20240117",
     "remeda": "^2.11.0",
     "sonner": "^1.5.0",
-    "valtio": "^1.13.2"
+    "valtio": "^1.13.2",
+    "wasm-vips": "^0.0.10"
   },
   "devDependencies": {
     "@types/node": "^22.2.0",

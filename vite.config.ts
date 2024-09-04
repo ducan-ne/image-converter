@@ -15,10 +15,17 @@ export default defineConfig({
     ,
     cssInject(),
   ],
+  server: {
+    headers: {
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Embedder-Policy": "require-corp",
+    },
+  },
   optimizeDeps: {
     esbuildOptions: {
       target: "esnext",
     } as any,
+    exclude: ["wasm-vips", "vips-es6"],
   },
   build: {
     target: "esnext",

@@ -8,15 +8,15 @@ importers:
 
   .:
     dependencies:
-      '@imagemagick/magick-wasm':
-        specifier: ^0.0.30
-        version: 0.0.30
       '@nextui-org/react':
         specifier: ^2.4.6
         version: 2.4.6(@types/react@18.2.48)(framer-motion@11.3.24(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117))(react-dom@18.3.0-canary-b30030471-20240117(react@18.3.0-canary-b30030471-20240117))(react@18.3.0-canary-b30030471-20240117)(tailwindcss@3.4.9)
       '@nextui-org/theme':
         specifier: ^2.2.9
         version: 2.2.9(tailwindcss@3.4.9)
+      '@zip.js/zip.js':
+        specifier: ^2.7.52
+        version: 2.7.52
       birpc:
         specifier: ^0.2.17
         version: 0.2.17
@@ -50,6 +50,9 @@ importers:
       valtio:
         specifier: ^1.13.2
         version: 1.13.2(@types/react@18.2.48)(react@18.3.0-canary-b30030471-20240117)
+      wasm-vips:
+        specifier: ^0.0.10
+        version: 0.0.10
     devDependencies:
       '@types/node':
         specifier: ^22.2.0
@@ -347,9 +350,6 @@ packages:
 
   '@formatjs/intl-localematcher@0.5.4':
     resolution: {integrity: sha512-zTwEpWOzZ2CiKcB93BLngUX59hQkuZjT2+SAQEscSm52peDW/getsawMcWF1rGRpMCX6D7nSJA3CzJ8gn13N/g==}
-
-  '@imagemagick/magick-wasm@0.0.30':
-    resolution: {integrity: sha512-l5pTepsyrM9O3zMdmDHGbncP2Uf4858nylU5tw6GE7QA/Qh99aEFr4eNkEan3q1PT6mV/1Ev0gOgthuK7/kNFQ==}
 
   '@internationalized/date@3.5.5':
     resolution: {integrity: sha512-H+CfYvOZ0LTJeeLOqm19E3uj/4YjrmOFtBufDHPfvtI80hFAMqtrp7oCACpe4Cil5l8S0Qu/9dYfZc/5lY8WQQ==}
@@ -1963,6 +1963,10 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0
 
+  '@zip.js/zip.js@2.7.52':
+    resolution: {integrity: sha512-+5g7FQswvrCHwYKNMd/KFxZSObctLSsQOgqBSi0LzwHo3li9Eh1w5cF5ndjQw9Zbr3ajVnd2+XyiX85gAetx1Q==}
+    engines: {bun: '>=0.7.0', deno: '>=1.0.0', node: '>=16.5.0'}
+
   ansi-regex@4.1.1:
     resolution: {integrity: sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==}
     engines: {node: '>=6'}
@@ -2895,6 +2899,10 @@ packages:
       terser:
         optional: true
 
+  wasm-vips@0.0.10:
+    resolution: {integrity: sha512-ZDIRjxTm03iRRXM9WwvVh8MH+mKHUBedJTC/MYd/cVGZxShnYcEd0BB7gSGDpxgkzcPSYUnN1HQJipDBhxVHTg==}
+    engines: {node: '>=16.4.0'}
+
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
@@ -3162,8 +3170,6 @@ snapshots:
   '@formatjs/intl-localematcher@0.5.4':
     dependencies:
       tslib: 2.6.3
-
-  '@imagemagick/magick-wasm@0.0.30': {}
 
   '@internationalized/date@3.5.5':
     dependencies:
@@ -5913,6 +5919,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@zip.js/zip.js@2.7.52': {}
+
   ansi-regex@4.1.1: {}
 
   ansi-regex@5.0.1: {}
@@ -6837,6 +6845,8 @@ snapshots:
       '@types/node': 22.2.0
       fsevents: 2.3.3
       lightningcss: 1.26.0
+
+  wasm-vips@0.0.10: {}
 
   which@2.0.2:
     dependencies:
