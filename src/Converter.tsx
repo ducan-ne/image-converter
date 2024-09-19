@@ -31,7 +31,7 @@ const blob = new Blob([js], { type: "application/javascript" })
 function createWorker(onProgress: (progress: number) => void) {
   const objURL = URL.createObjectURL(blob)
   const worker = new Worker(new URL(objURL), { type: "module" })
-  worker.addEventListener("error", (e) => {
+  worker.addEventListener("error", () => {
     URL.revokeObjectURL(objURL)
   })
   const rpc = createBirpc<ServerFunctions>(
@@ -157,7 +157,10 @@ const Converter = () => {
           row.previewUrl = previewUrl
           row.convertedSize = blob.size
           row.downloadUrl = URL.createObjectURL(blob)
-          row.sizeChange = ((file.size - blob.size) / file.size) * 100
+          const from = file.size
+          const to = blob.size
+          
+          row.sizeChange = -(((from - to) / from) * 100)
           row.status = "done"
           row.format = targetFormat
           row.duration = Date.now() - start

@@ -19,7 +19,6 @@ async function convert(
   targetFormat: string,
   quality: number,
 ) {
-  console.log(VipsModule)
   const vipsInstance = await Vips({
     locateFile: (fileName: string) => {
       if (fileName.endsWith("vips.wasm")) {
@@ -49,7 +48,13 @@ async function convert(
 
   const image = vipsInstance.Image.newFromBuffer(file, fileName, {})
 
-  return image.writeToBuffer(`file.${targetFormat.toLowerCase()}`, saveOptions).buffer
+  image.onProgress = (percent) => {
+    postMessage({ type: "progress", progress: percent })
+  }
+
+  const result = image.writeToBuffer(`file.${targetFormat.toLowerCase()}`, saveOptions)
+
+  return result.buffer
 }
 
 createBirpc<{}, ServerFunctions>(
