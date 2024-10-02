@@ -84,7 +84,7 @@ export type Formats =
 
 const Converter = () => {
   const { convertedImages } = useSnapshot(state)
-  const [targetFormat, setTargetFormat] = useState<Formats>("png")
+  const [targetFormat, setTargetFormat] = useState<Formats>("webp")
   const [quanlity, setQuanlity] = useState(82)
 
   useEffect(() => {
@@ -256,9 +256,9 @@ const Converter = () => {
             onChange={(e) => setTargetFormat(e.target.value as Formats)}
             className="w-full p-4 border-2 border-gray-300 rounded-lg shadow-sm appearance-none"
           >
+            <option value="webp">WebP</option>
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
-            <option value="webp">WebP</option>
             <option value="heic">HEIC</option>
             <option value="bmp">BMP</option>
             <option value="ico">ICO</option>
