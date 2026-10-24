@@ -82,11 +82,18 @@ export type Formats =
   | "tga"
   | "farbfeld"
 
-const Converter = () => {
+export type ConverterProps = {
+  // The format that is selected when the converter opens, for example "jpeg" on an AVIF to JPG page.
+  defaultFormat?: Formats
+}
+
+const Converter = ({ defaultFormat = "webp" }: ConverterProps) => {
   const { convertedImages } = useSnapshot(state)
-  const [targetFormat, setTargetFormat] = useState<Formats>("webp")
+  const [targetFormat, setTargetFormat] = useState<Formats>(defaultFormat)
   const [quanlity, setQuanlity] = useState(82)
 
+  // Set the paste handler again when the format or the quality changes. A handler from an
+  // earlier render would convert with the format that was selected then.
   useEffect(() => {
     const handler = async (e: ClipboardEvent) => {
       if (!e.clipboardData) {
@@ -106,7 +113,7 @@ const Converter = () => {
     }
     document.addEventListener("paste", handler)
     return () => document.removeEventListener("paste", handler)
-  }, [])
+  }, [targetFormat, quanlity])
 
   const onFiles = (files: File[]) => {
     for (const file of files) {
@@ -175,7 +182,8 @@ const Converter = () => {
   }
 
   return (
-    <section id="image-converter" style={{ width: "100%", height: "100%" }}>
+    // minWidth 0 lets the section shrink below the width of the table on a phone.
+    <section id="image-converter" style={{ width: "100%", height: "100%", minWidth: 0 }}>
       <div className="flex gap-4 flex-col items-center light">
         <Toaster position="top-center" />
         <DropZone
@@ -283,7 +291,7 @@ const Converter = () => {
                   const response = await fetch(image.downloadUrl)
                   const blob = await response.blob()
                   await zipWriter.add(
-                    image.filename.replace(/\.[^/.]+$/, `.${targetFormat.toLowerCase()}`),
+                    image.filename.replace(/\.[^/.]+$/, `.${image.format}`),
                     new BlobReader(blob),
                   )
                 }
@@ -300,97 +308,100 @@ const Converter = () => {
             Download as zip
           </Button>
         </div>
-        <Table aria-label="Converted images" className={tableCls.table()}>
-          <TableHeader className={tableCls.thead()}>
-            <Column isRowHeader className={`${tableCls.th()} w-12 text-slate-800`}>
-              No
-            </Column>
-            <Column className={`${tableCls.th()} w-32 text-slate-800`}>Status</Column>
-            {/* <Column className={`${tableCls.th()} w-32`}>Name</Column> */}
-            <Column className={`${tableCls.th()} w-40 text-slate-800`}>Image</Column>
-            <Column className={`${tableCls.th()} w-32 text-slate-800`}>Size change</Column>
-            <Column className={`${tableCls.th()} w-32 text-slate-800`}>Duration</Column>
-            <Column className={`${tableCls.th()} text-slate-800`}>Actions</Column>
-          </TableHeader>
-          <TableBody className={tableCls.tbody()}>
-            {convertedImages.map((image, index) => (
-              <Row className={tableCls.tr()} key={index}>
-                <Cell className={tableCls.td()}>{index + 1}</Cell>
-                <Cell className={tableCls.td()}>
-                  <AnimatePresence>
-                    <motion.div
-                      key={String(image.status)}
-                      initial={{ y: 0 }}
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {image.status === "loading" && <Spinner label={`${image.progress}%`} />}
-                      {image.status === "done" && "Done"}
-                      {image.status === "error" && <span className="text-red-500">Error</span>}
+        {/* On a narrow screen the table scrolls inside this box, so no column is cut off. */}
+        <div className="w-full overflow-x-auto">
+          <Table aria-label="Converted images" className={tableCls.table()}>
+            <TableHeader className={tableCls.thead()}>
+              <Column isRowHeader className={`${tableCls.th()} w-12 text-slate-800`}>
+                No
+              </Column>
+              <Column className={`${tableCls.th()} w-32 text-slate-800`}>Status</Column>
+              {/* <Column className={`${tableCls.th()} w-32`}>Name</Column> */}
+              <Column className={`${tableCls.th()} w-40 text-slate-800`}>Image</Column>
+              <Column className={`${tableCls.th()} w-32 text-slate-800`}>Size change</Column>
+              <Column className={`${tableCls.th()} w-32 text-slate-800`}>Duration</Column>
+              <Column className={`${tableCls.th()} text-slate-800`}>Actions</Column>
+            </TableHeader>
+            <TableBody className={tableCls.tbody()}>
+              {convertedImages.map((image, index) => (
+                <Row className={tableCls.tr()} key={index}>
+                  <Cell className={tableCls.td()}>{index + 1}</Cell>
+                  <Cell className={tableCls.td()}>
+                    <AnimatePresence>
+                      <motion.div
+                        key={String(image.status)}
+                        initial={{ y: 0 }}
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {image.status === "loading" && <Spinner label={`${image.progress}%`} />}
+                        {image.status === "done" && "Done"}
+                        {image.status === "error" && <span className="text-red-500">Error</span>}
+                      </motion.div>
+                    </AnimatePresence>
+                  </Cell>
+                  {/* <Cell className={tableCls.td()}>{image.filename}</Cell> */}
+                  <Cell className={tableCls.td()}>
+                    <img
+                      src={image.previewUrl}
+                      alt="converted"
+                      className="h-20 object-scale-down rounded-lg"
+                    />
+                  </Cell>
+                  <Cell className={tableCls.td()}>
+                    <motion.div key={image.sizeChange} animate={{ y: [0, -10, 0] }}>
+                      {image.status !== "loading" &&
+                        (image.sizeChange > 0 ? (
+                          <span className="text-red-500">+{image.sizeChange.toFixed(2)}%</span>
+                        ) : (
+                          <span className="text-green-500">{image.sizeChange.toFixed(2)}%</span>
+                        ))}
                     </motion.div>
-                  </AnimatePresence>
-                </Cell>
-                {/* <Cell className={tableCls.td()}>{image.filename}</Cell> */}
-                <Cell className={tableCls.td()}>
-                  <img
-                    src={image.previewUrl}
-                    alt="converted"
-                    className="h-20 object-scale-down rounded-lg"
-                  />
-                </Cell>
-                <Cell className={tableCls.td()}>
-                  <motion.div key={image.sizeChange} animate={{ y: [0, -10, 0] }}>
-                    {image.status !== "loading" &&
-                      (image.sizeChange > 0 ? (
-                        <span className="text-red-500">+{image.sizeChange.toFixed(2)}%</span>
-                      ) : (
-                        <span className="text-green-500">{image.sizeChange.toFixed(2)}%</span>
-                      ))}
-                  </motion.div>
-                </Cell>
-                <Cell className={`${tableCls.td()}`}>
-                  <MotionNumber
-                    value={image.duration / 1000}
-                    format={{ style: "decimal", maximumFractionDigits: 2 }} // Intl.NumberFormat() options
-                    locales="en-US" // Intl.NumberFormat() locales
-                  />
-                  s
-                </Cell>
-                <Cell className={tableCls.td()}>
-                  <div className="flex gap-6">
-                    <Button
-                      className={link}
-                      isDisabled={image.status !== "done"}
-                      onPress={() => {
-                        const a = document.createElement("a")
-                        a.href = image.downloadUrl
-                        a.download =
-                          image.filename.replace(/\.[^/.]+$/, "") + "." + targetFormat.toLowerCase()
-                        a.click()
-                      }}
-                    >
-                      Download
-                    </Button>
+                  </Cell>
+                  <Cell className={`${tableCls.td()}`}>
+                    <MotionNumber
+                      value={image.duration / 1000}
+                      format={{ style: "decimal", maximumFractionDigits: 2 }} // Intl.NumberFormat() options
+                      locales="en-US" // Intl.NumberFormat() locales
+                    />
+                    s
+                  </Cell>
+                  <Cell className={tableCls.td()}>
+                    <div className="flex gap-6">
+                      <Button
+                        className={link}
+                        isDisabled={image.status !== "done"}
+                        onPress={() => {
+                          const a = document.createElement("a")
+                          a.href = image.downloadUrl
+                          a.download =
+                            image.filename.replace(/\.[^/.]+$/, "") + "." + image.format
+                          a.click()
+                        }}
+                      >
+                        Download
+                      </Button>
 
-                    <Button
-                      className={link}
-                      isDisabled={image.status !== "done"}
-                      onPress={async () => {
-                        const res = await fetch(image.downloadUrl)
-                        const blob = await res.blob()
+                      <Button
+                        className={link}
+                        isDisabled={image.status !== "done"}
+                        onPress={async () => {
+                          const res = await fetch(image.downloadUrl)
+                          const blob = await res.blob()
 
-                        navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })])
-                        toast.success("Copied to clipboard")
-                      }}
-                    >
-                      Copy
-                    </Button>
-                  </div>
-                </Cell>
-              </Row>
-            ))}
-          </TableBody>
-        </Table>
+                          navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })])
+                          toast.success("Copied to clipboard")
+                        }}
+                      >
+                        Copy
+                      </Button>
+                    </div>
+                  </Cell>
+                </Row>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </section>
   )
