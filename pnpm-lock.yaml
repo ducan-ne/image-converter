@@ -51,8 +51,8 @@ importers:
         specifier: ^1.13.2
         version: 1.13.2(@types/react@18.2.48)(react@18.3.0-canary-b30030471-20240117)
       wasm-vips:
-        specifier: ^0.0.10
-        version: 0.0.10
+        specifier: ^0.0.19
+        version: 0.0.19
     devDependencies:
       '@types/node':
         specifier: ^22.2.0
@@ -2899,9 +2899,9 @@ packages:
       terser:
         optional: true
 
-  wasm-vips@0.0.10:
-    resolution: {integrity: sha512-ZDIRjxTm03iRRXM9WwvVh8MH+mKHUBedJTC/MYd/cVGZxShnYcEd0BB7gSGDpxgkzcPSYUnN1HQJipDBhxVHTg==}
-    engines: {node: '>=16.4.0'}
+  wasm-vips@0.0.19:
+    resolution: {integrity: sha512-KeejYs8oNqPUd2C/XPRhQtRabydqOSkUyCdWhFf2ucL8rVKqHvtp5ZYuYLyeDG/4y45tvROST3mQWla+1uotSA==}
+    engines: {node: '>=17.0.0'}
 
   which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
@@ -6846,7 +6846,7 @@ snapshots:
       fsevents: 2.3.3
       lightningcss: 1.26.0
 
-  wasm-vips@0.0.10: {}
+  wasm-vips@0.0.19: {}
 
   which@2.0.2:
     dependencies:
